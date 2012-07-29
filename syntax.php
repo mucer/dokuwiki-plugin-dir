@@ -898,7 +898,10 @@ class syntax_plugin_dir extends DokuWiki_Syntax_Plugin {
     
     switch ($keyType) {
     case "page":
-      return html_wikilink ($page ["id"]) ;
+      // try to remove link tag (sort by link value, not link target)
+      $value = html_wikilink ($page ["id"]);
+      $value = preg_replace('/<a.*>(.*)<\/a>/','$1',$value);
+      return  $value;
     case "desc":
     case "widedesc":
       return $this->_getMeta ($page, "description", "abstract") ;
